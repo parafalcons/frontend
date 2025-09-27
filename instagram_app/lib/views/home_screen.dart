@@ -10,6 +10,23 @@ import 'reels_tab.dart';
 import 'profile_tab.dart';
 
 
+import 'package:flutter/material.dart';
+
+class EmptyScreen extends StatelessWidget {
+  const EmptyScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+      ),
+      body: const Center(),
+    );
+  }
+}
+
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -22,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = [
     PostListScreen(),
     SearchTab(),
-    ReelsTab(), // Using "ReelsTab" as the favorites/heart tab
+    EmptyScreen(), // Using "ReelsTab" as the favorites/heart tab
     ProfileTab(),
   ];
 

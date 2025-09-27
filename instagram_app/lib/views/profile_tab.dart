@@ -60,7 +60,7 @@ class ProfileTab extends StatelessWidget {
           const SizedBox(height: 12),
 
 
-          
+
           // Name, role, bio and link
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18.0),
