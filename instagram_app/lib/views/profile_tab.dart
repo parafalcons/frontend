@@ -25,7 +25,9 @@ class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final posts = _posts();
-
+    // sizes
+    const avatarSize = 84.0;
+    const gap = 12.0;
     return Scaffold(
       backgroundColor: const Color(0xFF070707),
       appBar: AppBar(
@@ -57,70 +59,88 @@ class ProfileTab extends StatelessWidget {
         children: [
           const SizedBox(height: 12),
 
-          // Avatar with posts chip (centered)
-          Center(
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                const CircleAvatar(
-                  radius: 46,
-                  backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=3'),
-                ),
-                Positioned(
-                  left: -16,
-                  top: -12,
-                  child: Container(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1E1E1E),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white12),
-                    ),
-                    child: const Text(
-                      '46 Posts',
-                      style: TextStyle(color: Colors.white70, fontSize: 12),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
 
-          const SizedBox(height: 16),
-
+          
           // Name, role, bio and link
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18.0),
             child: Column(
               children: [
-                const Text(
-                  'Jack Stone | Freelancer',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 6),
-                const Text(
-                  'Digital goodies designer @pixsellz\nEverything is designed.',
-                  style: TextStyle(color: Colors.white70, height: 1.2),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 6),
-                GestureDetector(
-                  onTap: () {
-                    // launch url
-                  },
-                  child: const Text(
-                    'https://youtu.be/7mr1uF4DZFosi',
-                    style: TextStyle(
-                        color: Colors.lightBlueAccent,
-                        decoration: TextDecoration.underline),
+               Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Avatar (rounded rectangle)
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    'https://i.pravatar.cc/200?img=3',
+                    width: avatarSize,
+                    height: avatarSize,
+                    fit: BoxFit.cover,
                   ),
                 ),
+
+                SizedBox(width: gap),
+
+                // Right column: Posts chip, Name, Bio, Link, Buttons
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Row with posts chip aligned to top-left
+                      Row(
+                        children: [
+                          // 46 Posts chip
+                          Container(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: const Text(
+                              '46 Posts',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+
+                      SizedBox(height: 8),
+
+                      // Name and role
+                      const Text(
+                        'Jack Stone | Freelancer',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+
+                      SizedBox(height: 6),
+
+                      // Bio (2 lines)
+                      const Text(
+                        'Digital goodies designer @pixsellz\nEverything is designed.',
+                        style: TextStyle(
+                          color: Color(0xFFBDBDBD),
+                          fontSize: 13,
+                          height: 1.25,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+
+                    ],
+                  ),
+                ),
+              ],
+            )
               ],
             ),
           ),
@@ -447,3 +467,50 @@ PreferredSizeWidget _appBar(BuildContext context, String title) {
 //     return Center(child: Text('Profile Tab'));
 //   }
 // }
+
+
+class _SmallPillButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onTap;
+  final bool gradientReversed;
+  const _SmallPillButton({
+    required this.text,
+    required this.onTap,
+    this.gradientReversed = false,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final gradient = gradientReversed
+        ? const LinearGradient(colors: [Color(0xFF15E0A8), Color(0xFF8B5CFF)])
+        : const LinearGradient(colors: [Color(0xFF8B5CFF), Color(0xFF15E0A8)]);
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 38,
+        decoration: BoxDecoration(
+          gradient: gradient,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.45),
+              blurRadius: 6,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+            fontSize: 14,
+          ),
+        ),
+      ),
+    );
+  }
+}
